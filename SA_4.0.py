@@ -292,7 +292,7 @@ def sa(citys, tmp_path, tmp_distance, distance):
             if s < min_distance:  # 记录最优解
                 min_distance = s
                 best_path = x1.copy()
-                动画演示
+                #动画演示
                 plt.clf()
                 plt.xlabel('x')
                 plt.ylabel('y')
@@ -318,6 +318,11 @@ def sa(citys, tmp_path, tmp_distance, distance):
         # print(min_distance)
         if (p >= N):
              T0 = alpha * T0
+             x1, s = updataPath2(tmp_path, tmp_distance, T0, value, min_distance)
+             while(s >= tmp_distance)
+                 x1, s = updataPath2(tmp_path, tmp_distance, T0, value, min_distance)
+            tmp_distance = s
+            tmp_path = x1.copy()
         T0 = alpha * T0  # 更新温度
         print("temperature:%f" % T0)
         # plt.text(0, 5000, "T:%.3f °C" % T0)
