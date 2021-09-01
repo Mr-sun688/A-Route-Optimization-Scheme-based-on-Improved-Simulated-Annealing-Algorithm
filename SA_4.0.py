@@ -23,7 +23,7 @@ def loadDatadet(infile, k):
 
 def getCityData():
     global N
-    infile = 'E:\A大学课程资料\算法基础\TSP数据集\\kroA100.txt'
+    infile = 'E:\TSP\\kroA100.txt'
     citys, N = loadDatadet(infile, 3)
     print(citys)
     citys = np.array(citys)
@@ -131,6 +131,7 @@ def updataPath2(tmp_path, tmp_distance, T, value, min):
                 s = s + distance[x1[j]][x1[j + 1]]
             s = s + distance[x1[-1]][x1[0]]
             if (s <= tmp_distance):
+                tmp_path = x1
                 good = good + 1
                 tmp_distance = s
         else:
@@ -153,6 +154,7 @@ def updataPath2(tmp_path, tmp_distance, T, value, min):
                 s = s + distance[x1[j]][x1[j + 1]]
             s = s + distance[x1[-1]][x1[0]]
             if (s <= tmp_distance):
+                tmp_path = x1
                 good = good + 1
                 tmp_distance = s
         if (tmp_distance < min):
@@ -160,6 +162,39 @@ def updataPath2(tmp_path, tmp_distance, T, value, min):
         else:
             value.append(min)
         if (good >= goodMax): break
+    if (np.random.rand() > 0.5):
+            n1, n2, n3 = randint(0, N - 1), randint(0, N - 1), randint(0, N - 1)
+            n = [n1, n2, n3]
+            n.sort()
+            n1, n2, n3 = n
+            x1[0:n1] = tmp_path[0:n1]
+            x1[n1:n3 - n2 + n1] = tmp_path[n2 + 1:n3 + 1]
+            x1[n3 - n2 + n1:n3 + 1] = tmp_path[n1:n2 + 1]
+            x1[n3 + 1:N] = tmp_path[n3 + 1:N]
+            # 计算新解距离
+            s = 0
+            for j in range(len(x1) - 1):
+                s = s + distance[x1[j]][x1[j + 1]]
+            s = s + distance[x1[-1]][x1[0]]
+     else:
+            # 将某一段序列置反
+            n1, n2 = randint(0, N - 1), randint(0, N - 1)
+            n = [n1, n2]
+            n.sort()
+            n1, n2 = n
+            # n1为0单独写
+            if n1 > 0:
+                x1[0:n1] = tmp_path[0:n1]
+                x1[n1:n2 + 1] = tmp_path[n2:n1 - 1:-1]
+                x1[n2 + 1:N] = tmp_path[n2 + 1:N]
+            else:
+                x1[0:n1] = tmp_path[0:n1]
+                x1[n1:n2 + 1] = tmp_path[n2::-1]
+                x1[n2 + 1:N] = tmp_path[n2 + 1:N]
+            s = 0
+            for j in range(len(x1) - 1):
+                s = s + distance[x1[j]][x1[j + 1]]
+            s = s + distance[x1[-1]][x1[0]]
     return x1, s
 
 
